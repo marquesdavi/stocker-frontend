@@ -1,0 +1,69 @@
+<div class="d-flex" style="margin-top: 10%;">
+
+    <div class="d-flex flex-column container">
+        <div class="d-inline-flex">
+            <a class="navbar-brand fs-3 user-select-none mw-75">Histórico de Movimentações</a>
+            <form class="d-flex ms-auto">
+                <input class="form-control me-2" style="width: 250px;" type="search" placeholder="Pesquisar"
+                    aria-label="Search">
+                <button class="btn btn-outline-primary w-100" (click)="popAlert()" type="button">Fazer Movimentação</button>
+            </form>
+        </div>
+
+        <table class="table border mt-2 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Data de Movimentação</th>
+                    <th scope="col">Quantidade Total</th>
+                    <th scope="col">Tipo de Movimentação</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Desconto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024-08-01</td>
+                    <td>100</td>
+                    <td>Venda</td>
+                    <td>João Silva</td>
+                    <td>15%</td>
+                </tr>
+                <tr>
+                    <td>2024-08-05</td>
+                    <td>50</td>
+                    <td>Compra</td>
+                    <td>Maria Souza</td>
+                    <td>10%</td>
+                </tr>
+                <tr>
+                    <td>2024-08-10</td>
+                    <td>200</td>
+                    <td>Venda</td>
+                    <td>Carlos Pereira</td>
+                    <td>5%</td>
+                </tr>
+                <tr>
+                    <td>2024-08-15</td>
+                    <td>75</td>
+                    <td>Compra</td>
+                    <td>Fernanda Costa</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>2024-08-20</td>
+                    <td>150</td>
+                    <td>Venda</td>
+                    <td>Roberto Lima</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>2024-08-25</td>
+                    <td>120</td>
+                    <td>Compra</td>
+                    <td>Paula Oliveira</td>
+                    <td>7%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

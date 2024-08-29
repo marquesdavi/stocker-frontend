@@ -1,9 +1,84 @@
-<div class="d-flex flex-column">
-    <div class="d-inline-flex" style="max-width: 75%;">
-        <a class="navbar-brand fs-3 user-select-none mw-75">Lista de Produtos</a>
-        <form class="d-flex ms-auto">
-            <input class="form-control m me-2" style="width: 250px;" type="search" placeholder="Pesquisar" aria-label="Search">
-            <button class="btn btn-outline-primary w-100" type="button"><strong class="me-3">+</strong>Adicionar Produto</button>
-          </form>
+<div class="d-flex" style="margin-top: 10%;">
+
+    <div class="d-flex flex-column container">
+        <div class="d-inline-flex">
+            <a class="navbar-brand fs-3 user-select-none mw-75">Lista de Produtos</a>
+            <form class="d-flex ms-auto">
+                <input class="form-control me-2" style="width: 250px;" type="search" placeholder="Pesquisar"
+                    aria-label="Search">
+                <button class="btn btn-outline-primary w-100" (click)="popAlert()" type="button"><strong class="me-3">+</strong>Adicionar
+                    Produto</button>
+            </form>
+        </div>
+
+        <table class="table border mt-2 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Nome do Produto</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Data de Validade</th>
+                    <th scope="col">Desconto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Arroz</td>
+                    <td>10</td>
+                    <td>R$ 20,00</td>
+                    <td>Alimentos</td>
+                    <td>Arroz integral</td>
+                    <td>2025-08-01</td>
+                    <td>10%</td>
+                </tr>
+                <tr>
+                    <td>Feijão</td>
+                    <td>5</td>
+                    <td>R$ 12,50</td>
+                    <td>Alimentos</td>
+                    <td>Feijão carioca</td>
+                    <td>2024-12-31</td>
+                    <td>5%</td>
+                </tr>
+                <tr>
+                    <td>Macarrão</td>
+                    <td>20</td>
+                    <td>R$ 15,00</td>
+                    <td>Alimentos</td>
+                    <td>Macarrão espaguete</td>
+                    <td>2025-10-15</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>Azeite</td>
+                    <td>3</td>
+                    <td>R$ 25,00</td>
+                    <td>Condimentos</td>
+                    <td>Azeite extra virgem</td>
+                    <td>2026-06-20</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>Leite</td>
+                    <td>12</td>
+                    <td>R$ 6,00</td>
+                    <td>Bebidas</td>
+                    <td>Leite integral</td>
+                    <td>2024-09-05</td>
+                    <td>7%</td>
+                </tr>
+                <tr>
+                    <td>Café</td>
+                    <td>15</td>
+                    <td>R$ 8,50</td>
+                    <td>Bebidas</td>
+                    <td>Café torrado e moído</td>
+                    <td>2024-11-10</td>
+                    <td>10%</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
