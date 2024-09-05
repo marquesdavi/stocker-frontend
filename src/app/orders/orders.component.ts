@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -8,7 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './orders.component.css'
 })
 export class OrdersComponent {
+  constructor(
+    private router: Router
+  ) {}
   public popAlert(): any {
-    alert('PÁGINA EM CONSTRUÇÃO')
+    this.router.navigate(['/new-order'])
   }
 }
