@@ -21,47 +21,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2024-08-01</td>
-                    <td>100</td>
-                    <td>Venda</td>
-                    <td>João Silva</td>
-                    <td>15%</td>
-                </tr>
-                <tr>
-                    <td>2024-08-05</td>
-                    <td>50</td>
-                    <td>Compra</td>
-                    <td>Maria Souza</td>
-                    <td>10%</td>
-                </tr>
-                <tr>
-                    <td>2024-08-10</td>
-                    <td>200</td>
-                    <td>Venda</td>
-                    <td>Carlos Pereira</td>
-                    <td>5%</td>
-                </tr>
-                <tr>
-                    <td>2024-08-15</td>
-                    <td>75</td>
-                    <td>Compra</td>
-                    <td>Fernanda Costa</td>
-                    <td>8%</td>
-                </tr>
-                <tr>
-                    <td>2024-08-20</td>
-                    <td>150</td>
-                    <td>Venda</td>
-                    <td>Roberto Lima</td>
-                    <td>12%</td>
-                </tr>
-                <tr>
-                    <td>2024-08-25</td>
-                    <td>120</td>
-                    <td>Compra</td>
-                    <td>Paula Oliveira</td>
-                    <td>7%</td>
+                <tr *ngFor="let order of orders">
+                    <td>{{order.dataMovimentacao}}</td>
+                    <td>{{order.quantidadeTotal}}</td>
+                    <td>{{order.tipoMovimentacao}}</td>
+                    <td>{{order.cliente}}</td>
+                    <td>{{order.desconto}}</td>
                 </tr>
             </tbody>
         </table>

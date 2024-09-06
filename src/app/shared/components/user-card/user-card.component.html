@@ -1,0 +1,9 @@
+<div class="card-container" [ngClass]="{ 'bg-danger': status === 'Inativo' }">
+    <div class="card-body bg-ca">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">{{nome}}</h4>
+        </div>
+        <span class="fs-5 fw-light">{{cargo}}</span>
+    </div>
+    <h5 class="status m-2 fw-semibold">{{status}}</h5>
+</div>

@@ -1,0 +1,29 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    width: 313px;
+    height: 166px;
+    border-radius: 15px;
+    background-color: rgb(0, 219, 117);
+    color: whitesmoke;
+    box-shadow: 1px 1px 56.2px 22px rgba(0, 0, 0, 0.02);
+}
+
+.card-body {
+    padding: 15px !important;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    color: black !important;
+    text-align: left;
+    box-shadow: 1px 1px 56.2px 22px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.status {
+    margin-top: 10px;
+    text-align: center;
+}

@@ -1,36 +1,41 @@
 <div class="d-flex" style="margin-top: 10%;">
-
     <div class="d-flex justify-content-between container">
         <div class="d-flex flex-column">
             <a class="navbar-brand fs-3 user-select-none mw-75">Histórico de Movimentações</a>
             <div class="select-container mt-5 ms-5">
-                <select class="form-select form-select-lg mb-3 rounded-pill text-center my-5"
-                    aria-label=".form-select-lg example">
-                    <option selected>Selecione o Produto</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <label class="ms-3" for="product-select">Selecione o Produto</label>
+                <select class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
+                    [(ngModel)]="selectedProduct" aria-label="Selecione o Produto">
+                    <option *ngFor="let product of products" [ngValue]="product">
+                        {{ product.nomeProduto }}
+                    </option>
+                </select>
+                <label class="ms-3" for="product-select">Selecione o Cliente</label>
+                <select class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
+                    [(ngModel)]="selectedClient" aria-label="Selecione o Cliente">
+                    <option *ngFor="let client of clientes" [ngValue]="client">
+                        {{ client.nome }}
+                    </option>
                 </select>
 
-                <select class="form-select form-select-lg mb-3 rounded-pill text-center my-5"
-                    aria-label=".form-select-lg example">
-                    <option selected>Selecione o Cliente</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-
-                <div class="input-group d-flex justify-content-between mt-4">
-                    <input type="number" class="form-control mx-2" placeholder="Quantidade" aria-label="Quantidade"
-                        style="width: 10px ;">
-                    <input type="number" class="form-control mx-2" placeholder="Desconto" aria-label="Desconto"
-                        style="width: 10px ;">
+                <div class="input-group d-flex justify-content-around mt-4">
+                    <div class="d-flex flex-column">
+                        <label class="ms-3" for="quantity-form">Quantidade</label>
+                        <input type="number" class="quantity-form form-control mx-2" [(ngModel)]="quantity"
+                            placeholder="Quantidade" aria-label="Quantidade" min="1">
+                    </div>
+                    <!-- <div class="d-flex flex-column" style="max-width: 40%;">
+                        <label class="ms-3" for="discount-form">Desconto (%)</label>
+                        <input type="number" class="discount-form form-control mx-2" [(ngModel)]="discount"
+                            placeholder="Desconto (R$)" aria-label="Desconto" min="0">
+                    </div> -->
                 </div>
 
-
                 <div class="button-group d-inline-flex ms-4">
-                    <button class="bg-secondary text-light border-0 rounded ms-3 mt-5 py-2 px-5">Cancelar</button>
-                    <button class="bg-primary text-light border-0 rounded ms-3 mt-5 py-2 px-5">Adicionar</button>
+                    <button [routerLink]="['/orders']" routerLinkActive="router-link-active"
+                        class="bg-secondary text-light border-0 rounded ms- mt-5 py-2 px-5">Cancelar</button>
+                    <button (click)="addProduct()"
+                        class="bg-primary text-light border-0 rounded ms-3 mt-5 py-2 px-5">Adicionar</button>
                 </div>
             </div>
         </div>
@@ -44,73 +49,48 @@
                         <th scope="col">Preço Unitário</th>
                         <th scope="col">Preço Total</th>
                         <th scope="col">Quantidade</th>
-                        <th scope="col">Desconto</th>
+                        <th scope="col">Desconto (R$)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>2024-08-01</td>
-                        <td>100</td>
-                        <td>Venda</td>
-                        <td>João Silva</td>
-                        <td>15%</td>
-                    </tr>
-                    <tr>
-                        <td>2024-08-05</td>
-                        <td>50</td>
-                        <td>Compra</td>
-                        <td>Maria Souza</td>
-                        <td>10%</td>
-                    </tr>
-                    <tr>
-                        <td>2024-08-10</td>
-                        <td>200</td>
-                        <td>Venda</td>
-                        <td>Carlos Pereira</td>
-                        <td>5%</td>
-                    </tr>
-                    <tr>
-                        <td>2024-08-15</td>
-                        <td>75</td>
-                        <td>Compra</td>
-                        <td>Fernanda Costa</td>
-                        <td>8%</td>
-                    </tr>
-                    <tr>
-                        <td>2024-08-20</td>
-                        <td>150</td>
-                        <td>Venda</td>
-                        <td>Roberto Lima</td>
-                        <td>12%</td>
-                    </tr>
-                    <tr>
-                        <td>2024-08-25</td>
-                        <td>120</td>
-                        <td>Compra</td>
-                        <td>Paula Oliveira</td>
-                        <td>7%</td>
+                    <tr *ngFor="let orderProduct of orderProducts">
+                        <td>{{ orderProduct.nomeProduto }}</td>
+                        <td>{{ orderProduct.precoUnitario | currency:'BRL' }}</td>
+                        <td>{{ orderProduct.precoTotal | currency:'BRL' }}</td>
+                        <td>{{ orderProduct.quantidade }}</td>
+                        <td>{{ orderProduct.desconto | currency:'BRL' }}</td>
                     </tr>
                 </tbody>
             </table>
+
+
+
+            <!-- Totais -->
             <div class="d-inline-flex">
                 <div class="details mt-4">
-                    <p class="my-1 fw-bold">Preço: </p>
-                    <p class="my-1 fw-bold">Desconto: </p>
-                    <p class="my-1 fw-bold">Valor Final: </p>
+                    <p class="my-1 fw-bold">Preço Total: {{ totalPrice | currency:'BRL' }}</p>
+                    <p *ngIf="randomDiscountAdded" class="my-1 fw-bold">Desconto Extra: {{ randomDiscountAdded |
+                        currency:'BRL' }}</p>
+                    <p class="my-1 fw-bold">Desconto Total: {{ totalDiscount | currency:'BRL' }}</p>
+                    <p class="my-1 fw-bold">Valor Final: {{ finalPrice | currency:'BRL' }}</p>
                 </div>
                 <select class="form-select form-select-sm rounded text-center m-5 w-50 ms-auto"
-                    aria-label=".form-select-sm example">
+                    aria-label="Tipo de Movimentação">
                     <option selected>Tipo de Movimentação</option>
                     <option value="1">Compra</option>
                     <option value="2">Venda</option>
                 </select>
-
             </div>
 
             <div class="button-group d-inline-flex ms-4">
                 <button class="bg-primary text-light border-0 rounded ms-3 mt-4 py-2 px-3">Efetuar Movimentação</button>
-                <button class="bg-secondary text-light border-0 rounded ms-3 mt-4 py-2 px-4">Adicionar Desconto</button>
+                <button [disabled]="isDescounted" [ngClass]="{ 'bg-success': !isDescounted }"
+                    (click)="applyRandomDiscount()"
+                    class="bg-secondary text-light border-0 rounded ms-3 mt-4 py-2 px-4">
+                    Adicionar Desconto
+                </button>
             </div>
+
         </div>
     </div>
 </div>
