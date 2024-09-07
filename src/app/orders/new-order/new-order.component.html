@@ -10,8 +10,8 @@
                         {{ product.nomeProduto }}
                     </option>
                 </select>
-                <label class="ms-3" for="product-select">Selecione o Cliente</label>
-                <select class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
+                <label *ngIf="!orderProducts.length" class="ms-3" for="product-select">Selecione o Cliente</label>
+                <select *ngIf="!orderProducts.length" class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
                     [(ngModel)]="selectedClient" aria-label="Selecione o Cliente">
                     <option *ngFor="let client of clientes" [ngValue]="client">
                         {{ client.nome }}
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column mt-5 ms-5">
+        <div *ngIf="orderProducts.length" class="d-flex flex-column mt-5 ms-5">
             <a class="navbar-brand fs-4 text-center pb-4 user-select-none mw-75">Movimentação</a>
             <table class="table mt-2 text-center">
                 <thead>
