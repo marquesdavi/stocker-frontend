@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -13,5 +13,11 @@ export class UserCardComponent {
   @Input() nome: string = '';
   @Input() cargo: string = '';
   @Input() status: string = '';
+  
+  @Output() clientStatusToggler = new EventEmitter<string>();
+
+  clientStatusToggle(client: any) {
+    this.clientStatusToggler.emit(client);
+  }
 
 }

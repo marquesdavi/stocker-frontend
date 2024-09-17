@@ -27,9 +27,16 @@ export class AdminComponent implements OnInit {
     this.clients = this.clientService.getClients();
   }
 
+  public toggleStatus(client: any) {
+    client.status = client.status === 'Ativo' ? 'Inativo' : 'Ativo';
+    this.countUsers()
+  }
+
   private countUsers() {
+    let count: number = 0;
     this.clients.forEach((client: any) => {
-      if(client.status === "Ativo") this.actives +=1
+      if (client.status === "Ativo") count += 1;
+      this.actives = count;
     })
   }
 }

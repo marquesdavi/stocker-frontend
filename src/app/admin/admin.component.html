@@ -3,11 +3,13 @@
         <div class="d-inline-flex">
             <a class="navbar-brand fs-3 user-select-none mw-75">Lista de Produtos</a>
 
-            <a class="navbar-brand fs-5 user-select-none ms-auto bg-success text-light p-3 rounded">Usuários Ativos <strong>{{actives}}</strong></a>
+            <a class="navbar-brand fs-5 user-select-none ms-auto bg-success text-light p-3 rounded">Usuários Ativos
+                <strong>{{actives}}</strong></a>
         </div>
         <div class="d-flex flex-wrap mt-5 ms-5">
             <div class="mx-4 mb-4" *ngFor="let client of clients">
-                <app-user-card [cargo]="client.cargo" [status]="client.status" [nome]="client.nome"></app-user-card>
+                <app-user-card [cargo]="client.cargo" (clientStatusToggler)="toggleStatus(client)"
+                    [status]="client.status" [nome]="client.nome"></app-user-card>
             </div>
         </div>
 
