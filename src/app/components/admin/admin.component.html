@@ -1,0 +1,62 @@
+<div class="d-flex" style="margin-top: 10%;">
+    <div class="d-flex flex-column container">
+        <div class="d-inline-flex">
+            <a class="navbar-brand fs-3 user-select-none mw-75">Lista de Usuários</a>
+            <a class="navbar-brand fs-5 user-select-none ms-auto bg-success text-light p-3 rounded">
+                Usuários Ativos <strong>{{ actives }}</strong>
+            </a>
+        </div>
+
+        <button class="me-auto btn btn-primary my-3" (click)="openModal()">Adicionar Novo Usuário</button>
+
+        <div class="d-flex flex-wrap mt-5 ms-5">
+            <div class="mx-4 mb-4" *ngFor="let client of clients">
+                <app-user-card [cargo]="client.roles[0]" [status]="client.status" [nome]="client.name"
+                    (clientStatusToggler)="toggleStatus(client.id)">
+                </app-user-card>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Criar Novo Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form #userForm="ngForm" (ngSubmit)="createUser(userForm)">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="newUser.name" name="name"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Cargo</label>
+                            <input type="text" class="form-control" id="role" [(ngModel)]="newUser.role" name="role"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="email" [(ngModel)]="newUser.email" name="email"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="text" class="form-control" id="password" [(ngModel)]="newUser.password"
+                                name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf" [(ngModel)]="newUser.cpf" name="cpf"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Criar Usuário</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

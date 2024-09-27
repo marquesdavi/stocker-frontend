@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { productService } from '../../services/product.service';
+import { productService } from '../../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ClientService } from '../../services/client.service';
+import { UserService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-new-order',
@@ -15,7 +15,7 @@ import { ClientService } from '../../services/client.service';
 export class NewOrderComponent implements OnInit {
   constructor(
     private productService: productService,
-    private clientService: ClientService
+    private userService: UserService
   ) { }
 
   public products: any[] = [];
@@ -37,7 +37,7 @@ export class NewOrderComponent implements OnInit {
 
   public getProductsAndClients() {
     this.products = this.productService.getProducts();
-    this.clientes = this.clientService.getClients();
+    // this.clientes = this.userService.getUsers();
   }
 
   public addProduct() {
@@ -78,7 +78,7 @@ export class NewOrderComponent implements OnInit {
     const randomDiscountValue = (randomDiscountPercent / 100) * this.totalPrice;
 
     this.randomDiscountAdded = randomDiscountValue;
-    this.totalDiscount += this.randomDiscountAdded;
-    this.finalPrice = this.totalPrice - (this.totalDiscount + this.randomDiscountAdded);
+    this.totalDiscount = this.totalDiscount + this.randomDiscountAdded;
+    this.finalPrice = this.totalPrice - this.totalDiscount;
   }
 }

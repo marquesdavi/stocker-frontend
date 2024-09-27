@@ -1,23 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { UserStatus } from '../../../enums/status.enum';
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.css'
+  styleUrls: ['./user-card.component.css']
 })
 export class UserCardComponent {
   @Input() nome: string = '';
   @Input() cargo: string = '';
-  @Input() status: string = '';
+  @Input() status: UserStatus = UserStatus.Inativo;
   
-  @Output() clientStatusToggler = new EventEmitter<string>();
+  @Output() clientStatusToggler = new EventEmitter<void>();
 
-  clientStatusToggle(client: any) {
-    this.clientStatusToggler.emit(client);
+  clientStatusToggle() {
+    this.clientStatusToggler.emit();
   }
-
 }

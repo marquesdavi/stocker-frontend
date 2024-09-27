@@ -4,7 +4,8 @@
             <img src='assets/img/logo.png' alt="" width="100px">
             <a class="navbar-brand fw-bold fs-4 user-select-none">Stocker</a>
         </div>
-        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" style="text-decoration: none;" class="fw-bold fs-4">NÃO CLIQUE</a>
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" style="text-decoration: none;"
+            class="fw-bold fs-4">NÃO CLIQUE</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,11 +18,30 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link fs-6" href="orders">Movimentações</a>
                 </li>
-                <!-- <li class="nav-item mx-2">
+                <li class="nav-item mx-2">
                     <a class="nav-link fs-6" href="#">Clientes</a>
-                </li> -->
+                </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link fs-6" href="admin">Admin</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="perfil">Perfil</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" (click)="logout()">Sair</a>
+                        </li>
+                    </ul>
                 </li>
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
