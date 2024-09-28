@@ -38,6 +38,13 @@ export class ProductService {
     return this.http.patch<any>(`${environment.apiUrl}/products/${id}`, product, { headers });
   }
 
+  updateProductStock(id: string, stockQuantity: number, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.patch<any>(`${environment.apiUrl}/products/${id}`, { stockQuantity }, { headers });
+  }
+
   deleteProduct(id: string, token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

@@ -1,96 +1,52 @@
 <div class="d-flex" style="margin-top: 10%;">
     <div class="d-flex justify-content-between container">
-        <div class="d-flex flex-column">
-            <a class="navbar-brand fs-3 user-select-none mw-75">Histórico de Movimentações</a>
-            <div class="select-container mt-5 ms-5">
-                <label class="ms-3" for="product-select">Selecione o Produto</label>
-                <select class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
-                    [(ngModel)]="selectedProduct" aria-label="Selecione o Produto">
-                    <option *ngFor="let product of products" [ngValue]="product">
-                        {{ product.nomeProduto }}
-                    </option>
-                </select>
-                <label *ngIf="!orderProducts.length" class="ms-3" for="product-select">Selecione o Cliente</label>
-                <select *ngIf="!orderProducts.length" class="form-select product-select form-select-md mb-3 rounded-pill text-center mb-5"
-                    [(ngModel)]="selectedClient" aria-label="Selecione o Cliente">
-                    <option *ngFor="let client of clientes" [ngValue]="client">
-                        {{ client.nome }}
-                    </option>
-                </select>
+      <div class="d-flex flex-column">
+        <a class="navbar-brand fs-3 user-select-none mw-75">Nova Movimentação</a>
+        
+        <label class="ms-3" for="product-select">Selecione o Produto</label>
+        <select class="form-select mb-3 rounded-pill text-center" [(ngModel)]="selectedProduct">
+          <option *ngFor="let product of products" [ngValue]="product">{{ product.name }}</option>
+        </select>
+  
+        <label class="ms-3" for="client-select">Selecione o Cliente</label>
+        <select class="form-select mb-3 rounded-pill text-center" [(ngModel)]="selectedClient">
+          <option *ngFor="let client of clientes" [ngValue]="client">{{ client.name }}</option>
+        </select>
 
-                <div class="input-group d-flex justify-content-around mt-4">
-                    <div class="d-flex flex-column">
-                        <label class="ms-3" for="quantity-form">Quantidade</label>
-                        <input type="number" class="quantity-form form-control mx-2" [(ngModel)]="quantity"
-                            placeholder="Quantidade" aria-label="Quantidade" min="1">
-                    </div>
-                    <!-- <div class="d-flex flex-column" style="max-width: 40%;">
-                        <label class="ms-3" for="discount-form">Desconto (%)</label>
-                        <input type="number" class="discount-form form-control mx-2" [(ngModel)]="discount"
-                            placeholder="Desconto (R$)" aria-label="Desconto" min="0">
-                    </div> -->
-                </div>
-
-                <div class="button-group d-inline-flex ms-4">
-                    <button [routerLink]="['/orders']" routerLinkActive="router-link-active"
-                        class="bg-secondary text-light border-0 rounded ms- mt-5 py-2 px-5">Cancelar</button>
-                    <button (click)="addProduct()"
-                        class="bg-primary text-light border-0 rounded ms-3 mt-5 py-2 px-5">Adicionar</button>
-                </div>
-            </div>
-        </div>
-
-        <div *ngIf="orderProducts.length" class="d-flex flex-column mt-5 ms-5">
-            <a class="navbar-brand fs-4 text-center pb-4 user-select-none mw-75">Movimentação</a>
-            <table class="table mt-2 text-center">
-                <thead>
-                    <tr>
-                        <th scope="col">Produto</th>
-                        <th scope="col">Preço Unitário</th>
-                        <th scope="col">Preço Total</th>
-                        <th scope="col">Quantidade</th>
-                        <th scope="col">Desconto (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let orderProduct of orderProducts">
-                        <td>{{ orderProduct.nomeProduto }}</td>
-                        <td>{{ orderProduct.precoUnitario | currency:'BRL' }}</td>
-                        <td>{{ orderProduct.precoTotal | currency:'BRL' }}</td>
-                        <td>{{ orderProduct.quantidade }}</td>
-                        <td>{{ orderProduct.desconto | currency:'BRL' }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-
-            <!-- Totais -->
-            <div class="d-inline-flex">
-                <div class="details mt-4">
-                    <p class="my-1 fw-bold">Preço Total: {{ totalPrice | currency:'BRL' }}</p>
-                    <p *ngIf="randomDiscountAdded" class="my-1 fw-bold">Desconto Extra: {{ randomDiscountAdded |
-                        currency:'BRL' }}</p>
-                    <p class="my-1 fw-bold">Desconto Total: {{ totalDiscount | currency:'BRL' }}</p>
-                    <p class="my-1 fw-bold">Valor Final: {{ finalPrice | currency:'BRL' }}</p>
-                </div>
-                <select class="form-select form-select-sm rounded text-center m-5 w-50 ms-auto"
-                    aria-label="Tipo de Movimentação">
-                    <option selected>Tipo de Movimentação</option>
-                    <option value="1">Compra</option>
-                    <option value="2">Venda</option>
-                </select>
-            </div>
-
-            <div class="button-group d-inline-flex ms-4">
-                <button class="bg-primary text-light border-0 rounded ms-3 mt-4 py-2 px-3">Efetuar Movimentação</button>
-                <button [disabled]="isDescounted" [ngClass]="{ 'bg-success': !isDescounted }"
-                    (click)="applyRandomDiscount()"
-                    class="bg-secondary text-light border-0 rounded ms-3 mt-4 py-2 px-4">
-                    Adicionar Desconto
-                </button>
-            </div>
-
-        </div>
+        <label class="ms-3" for="quantity">Quantidade</label>
+        <input type="number" class="form-control mx-2 mb-3" [(ngModel)]="quantity" min="1">
+  
+        <label class="ms-3" for="movement-type">Tipo de Movimentação</label>
+        <select class="form-select mb-3" [(ngModel)]="movementType">
+          <option value="1">Compra</option>
+          <option value="2">Venda</option>
+        </select>
+  
+        <button (click)="addProduct()" class="btn btn-primary mt-3">Adicionar Produto</button>
+        <button (click)="submitOrder()" class="btn btn-success mt-3 ms-3">Efetuar Movimentação</button>
+      </div>
+      
+      <div *ngIf="orderProducts.length" class="d-flex flex-column mt-5 ms-5">
+        <a class="navbar-brand fs-4 text-center pb-4 user-select-none mw-75">Produtos na Ordem</a>
+        <table class="table mt-2 text-center">
+          <thead>
+            <tr>
+              <th scope="col">Produto</th>
+              <th scope="col">Preço Unitário</th>
+              <th scope="col">Quantidade</th>
+              <th scope="col">Preço Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let orderProduct of orderProducts">
+              <td>{{ orderProduct.nomeProduto }}</td>
+              <td>{{ orderProduct.precoUnitario | currency:'BRL' }}</td>
+              <td>{{ orderProduct.quantidade }}</td>
+              <td>{{ orderProduct.precoTotal | currency:'BRL' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
+  

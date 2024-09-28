@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
+import { OrdersService } from '../../../services/orders.service';
+import { UserService } from '../../../services/users.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../../services/users.service';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { CustomerService } from '../../../services/customer.service';
 
 @Component({
   selector: 'app-new-order',
@@ -13,11 +16,6 @@ import { UserService } from '../../../services/users.service';
   styleUrl: './new-order.component.css'
 })
 export class NewOrderComponent implements OnInit {
-  constructor(
-    private productService: ProductService,
-    private userService: UserService
-  ) { }
-
   public products: any[] = [];
   public clientes: any[] = [];
   public orderProducts: any[] = [];
@@ -25,60 +23,80 @@ export class NewOrderComponent implements OnInit {
   public selectedClient: any = null;
   public quantity: number = 1;
   public discount: number = 0;
-  public isDescounted: boolean = false;
   public totalPrice: number = 0;
-  public totalDiscount: number = 0;
   public finalPrice: number = 0;
-  public randomDiscountAdded: number = 0;
+  public movementType: string = '';
+  public token: string = '';
+
+  constructor(
+    private productService: ProductService,
+    private ordersService: OrdersService,
+    private authService: AuthenticationService,
+    private customerService: CustomerService
+  ) {}
 
   ngOnInit(): void {
+    this.token = this.authService.getAuthToken();
     this.getProductsAndClients();
   }
 
   public getProductsAndClients() {
-    // this.products = this.productService.getProducts();
-    // this.clientes = this.userService.getUsers();
+    this.productService.getProducts(this.token).subscribe((products) => {
+      this.products = products;
+    });
+    this.customerService.getCustomers(this.token).subscribe((clientes) => {
+      this.clientes = clientes;
+    });
   }
 
   public addProduct() {
     if (this.selectedProduct && this.quantity > 0) {
       const product = this.selectedProduct;
-
-      const precoUnitario = product.preco;
-      const totalProductPrice = precoUnitario * this.quantity;
-
-      const totalProductDiscount = (product.desconto / 100) * totalProductPrice;
-
-      const precoFinal = totalProductPrice - totalProductDiscount;
+      const totalProductPrice = product.price * this.quantity;
 
       const newOrderProduct = {
-        nomeProduto: product.nomeProduto,
-        precoUnitario: precoUnitario,
+        productId: product.id,
+        nomeProduto: product.name,
+        precoUnitario: product.price,
         quantidade: this.quantity,
-        precoTotal: precoFinal,
-        desconto: totalProductDiscount
+        precoTotal: totalProductPrice
       };
 
       this.orderProducts.push(newOrderProduct);
-
       this.totalPrice += totalProductPrice;
-      this.totalDiscount += totalProductDiscount;
-      this.finalPrice = this.totalPrice - this.totalDiscount;
-
-      this.selectedProduct = null;
-      this.selectedClient = null;
-      this.quantity = 1;
+      this.finalPrice = this.totalPrice;
     }
   }
 
-  public applyRandomDiscount() {
-    this.isDescounted = true;
-    const randomDiscountPercent = Math.floor(Math.random() * 51);
+  public submitOrder() {
+    if (this.orderProducts.length && this.selectedClient && this.movementType) {
+      const movementTypeEnum = this.movementType === '1' ? 'PURCHASE' : 'SALE';
 
-    const randomDiscountValue = (randomDiscountPercent / 100) * this.totalPrice;
+      const orderData = {
+        customerId: this.selectedClient.id,
+        movementType: movementTypeEnum,
+        items: this.orderProducts.map((orderProduct) => ({
+          product: orderProduct.productId,
+          amount: orderProduct.quantidade
+        }))
+      };
 
-    this.randomDiscountAdded = randomDiscountValue;
-    this.totalDiscount = this.totalDiscount + this.randomDiscountAdded;
-    this.finalPrice = this.totalPrice - this.totalDiscount;
+      this.ordersService.createOrder(orderData, this.token).subscribe(() => {
+        this.updateProductStock();
+      });
+    }
+  }
+
+  public updateProductStock() {
+    this.orderProducts.forEach((orderProduct) => {
+      const newStock =
+        this.movementType === '1'
+          ? orderProduct.quantidade + this.selectedProduct.stockQuantity
+          : this.selectedProduct.stockQuantity - orderProduct.quantidade;
+
+      this.productService.updateProductStock(orderProduct.productId, newStock, this.token).subscribe(() => {
+
+      });
+    });
   }
 }

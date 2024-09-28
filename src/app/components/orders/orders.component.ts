@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OrdersService } from '../../services/orders.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-orders',
@@ -10,23 +11,28 @@ import { OrdersService } from '../../services/orders.service';
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
-export class OrdersComponent implements OnInit{
-  public orders: any[]=[];
+export class OrdersComponent implements OnInit {
+  public orders: any[] = [];
+  public token: string = '';
 
   constructor(
     private router: Router,
-    private ordersService: OrdersService
-  ) {} 
+    private ordersService: OrdersService,
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
+    this.token = this.authService.getAuthToken();
     this.getOrders();
   }
 
   public popAlert(): any {
-    this.router.navigate(['/new-order'])
+    this.router.navigate(['/new-order']);
   }
 
   public getOrders() {
-    this.orders = this.ordersService.getOrders();
+    this.ordersService.getOrders(this.token).subscribe((data) => {
+      this.orders = data;
+    });
   }
 }
