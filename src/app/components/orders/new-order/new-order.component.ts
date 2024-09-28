@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { productService } from '../../../services/product.service';
+import { ProductService } from '../../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { UserService } from '../../../services/users.service';
 })
 export class NewOrderComponent implements OnInit {
   constructor(
-    private productService: productService,
+    private productService: ProductService,
     private userService: UserService
   ) { }
 
@@ -36,7 +36,7 @@ export class NewOrderComponent implements OnInit {
   }
 
   public getProductsAndClients() {
-    this.products = this.productService.getProducts();
+    // this.products = this.productService.getProducts();
     // this.clientes = this.userService.getUsers();
   }
 

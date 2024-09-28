@@ -4,6 +4,7 @@ import { UserService } from '../../services/users.service';
 import { UserCardComponent } from '../../shared/components/user-card/user-card.component';
 import { UserStatus } from '../../enums/status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthenticationService } from '../../services/authentication.service';
 
 
 declare var bootstrap: any; // Declaração do Bootstrap para manipular o modal
@@ -19,16 +20,18 @@ export class AdminComponent implements OnInit {
 
   public clients: any[] = [];
   public actives: number = 0;
-  public newUser = { name: '', role: '', email: '', cpf: '', password: '' };
+  public newUser = { name: '', email: '', cpf: '', password: '' };
+  public token: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private authService: AuthenticationService) {}
 
   ngOnInit(): void {
+    this.token = this.authService.getAuthToken();
     this.getUsers();
   }
 
   public getUsers(): void {
-    this.userService.getUsers().subscribe((clients: any[]) => {
+    this.userService.getUsers(this.token).subscribe((clients: any[]) => {
       this.clients = clients.map(client => ({
         ...client,
         status: client.status ? UserStatus.Ativo : UserStatus.Inativo
@@ -59,10 +62,9 @@ export class AdminComponent implements OnInit {
         email: this.newUser.email,
         cpf: this.newUser.cpf,
         password: this.newUser.password,
-        roles: [this.newUser.role],
       };
 
-      this.userService.createUser(newClient).subscribe({
+      this.userService.createUser(newClient, this.token).subscribe({
         next: (response) => {
           console.log(response)
           this.getUsers();

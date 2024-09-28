@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
@@ -9,11 +9,18 @@ import { AuthenticationService } from '../../../services/authentication.service'
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthenticationService) {}
+
+  ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+  }
 
   public logout() {
     this.authService.logout();
   }
+
 }

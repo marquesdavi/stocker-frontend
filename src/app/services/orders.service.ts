@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { AuthenticationService } from "./authentication.service";
 
 @Injectable({
     providedIn: 'root',
@@ -56,10 +57,10 @@ export class OrdersService {
         }
     ]
 
-    constructor() { }
-    // headers = new Headers({
-      headers = { 'AccessToken': 'eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzdG9ja2VyLWF1dGgiLCJzdWIiOiJkOTA5MjJkMy1lYTlkLTQ1NTUtODczYS1iZWU1ZjA2YzQ4NTkiLCJleHAiOjE3Mjc0MDI5OTUsImlhdCI6MTcyNzM5OTM5NSwic2NvcGUiOiJVU0VSIiwicm9sZXMiOlsiVVNFUiJdfQ.gvX_8irygSpGjFoxSHpMv-TDZ5vAnqz8XWLKQf9iCRUYhR4NoggyiQZ4KCVfSfUSNtqoLD6D1rt56HM2VPEbQYYNV4zGUg4dLKByQlBJKJBHx_JryHnpfu4cVIBXhqFSjDSL_nSULYVRicYdvO9Veqrdfir_-VvrRf94TlqLCisvorPZ-2VkLs5C1zUaAgAqNVvp6ZW7Du5hQ_cd_p2sM2W7yKsvflit4JtK6YVrGPuxOH19BHxFvNFU4DHX7bAQvLPHeWiJHLts4uPvFgkTrhuvOyFSDfjSl-geelGoRs9638rsU55IOwnuALPIBqL4UoSPWjbA7aMY1kNc5q6R_A'}
-    // })
+    constructor(
+        private authService: AuthenticationService,
+    ) {}
+
     public getOrders() {
         return this.orders;
         // return this.http.get('http://localhost:8080/movement', { headers: this.headers });

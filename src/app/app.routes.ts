@@ -6,6 +6,8 @@ import { NewOrderComponent } from './components/orders/new-order/new-order.compo
 import { AdminComponent } from './components/admin/admin.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { AuthGuard } from './guards/authGuard';
+import { AdminGuard } from './guards/adminGuard';
+import { CustomersComponent } from './components/customers/customers.component';
 
 
 export const routes: Routes = [
@@ -14,6 +16,7 @@ export const routes: Routes = [
     { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
     { path: 'new-order', component: NewOrderComponent, canActivate: [AuthGuard] },
-    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-    { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] }
+    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
+    { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
+    { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] }
 ];

@@ -3,8 +3,8 @@
     <div class="d-inline-flex">
       <a class="navbar-brand fs-3 user-select-none mw-75">Lista de Produtos</a>
       <form class="d-flex ms-auto">
-        <input (change)="searchProduct($event)" class="form-control me-2" style="width: 250px;" type="search" placeholder="Pesquisar"
-          aria-label="Search">
+        <input (change)="searchProduct($event)" class="form-control me-2" style="width: 250px;" type="search"
+          placeholder="Pesquisar" aria-label="Search"  *ngIf="products.length > 0">
         <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="modal"
           data-bs-target="#produtoModal">
           <strong class="me-3">+</strong>Adicionar Produto
@@ -12,7 +12,7 @@
       </form>
     </div>
 
-    <table class="table border mt-2 text-center">
+    <table class="table border mt-2 text-center" *ngIf="products.length > 0">
       <thead>
         <tr>
           <th scope="col">Nome do Produto</th>
@@ -27,39 +27,43 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
-          <td *ngIf="!product.isEditing">{{ product.nomeProduto }}</td>
+          <td *ngIf="!product.isEditing">{{ product.name }}</td>
           <td *ngIf="product.isEditing">
-            <input type="text" [(ngModel)]="product.nomeProduto" class="form-control w-75 text-center" />
+            <input type="text" [(ngModel)]="product.name" class="form-control w-75 text-center" />
           </td>
 
-          <td *ngIf="!product.isEditing">{{ product.quantidade }}</td>
+          <td *ngIf="!product.isEditing">{{ product.stockQuantity }}</td>
           <td *ngIf="product.isEditing">
-            <input disabled="true" type="number" [(ngModel)]="product.quantidade" class="form-control w-75 text-center" />
+            <input disabled="true" type="number" [(ngModel)]="product.stockQuantity"
+              class="form-control w-75 text-center" />
           </td>
 
-          <td *ngIf="!product.isEditing">R${{ product.preco }}</td>
+          <td *ngIf="!product.isEditing">R${{ product.price }}</td>
           <td *ngIf="product.isEditing">
-            <input type="number" [(ngModel)]="product.preco" class="form-control w-75 text-center" />
+            <input type="number" [(ngModel)]="product.price" class="form-control w-75 text-center" />
           </td>
 
-          <td *ngIf="!product.isEditing">{{ product.categoria }}</td>
+          <td *ngIf="!product.isEditing">{{ translateCategory(product.category) }}</td>
           <td *ngIf="product.isEditing">
-            <input type="text" [(ngModel)]="product.categoria" class="form-control w-75 text-center" />
+            <select class="form-select" [(ngModel)]="product.category" required>
+              <option value="" disabled>Selecione uma categoria</option>
+              <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+            </select>
           </td>
 
-          <td *ngIf="!product.isEditing">{{ product.descricao }}</td>
+          <td *ngIf="!product.isEditing">{{ product.description }}</td>
           <td *ngIf="product.isEditing">
-            <input type="text" [(ngModel)]="product.descricao" class="form-control w-75 text-center" />
+            <input type="text" [(ngModel)]="product.description" class="form-control w-75 text-center" />
           </td>
 
-          <td *ngIf="!product.isEditing">{{ product.dataValidade }}</td>
+          <td *ngIf="!product.isEditing">{{ product.expirationDate }}</td>
           <td *ngIf="product.isEditing">
-            <input type="date" [(ngModel)]="product.dataValidade" class="form-control w-75 text-center" />
+            <input type="date" [(ngModel)]="product.expirationDate" class="form-control w-75 text-center" />
           </td>
 
-          <td *ngIf="!product.isEditing">{{ product.desconto }}%</td>
+          <td *ngIf="!product.isEditing">{{ product.productDiscount }}%</td>
           <td *ngIf="product.isEditing">
-            <input type="number" [(ngModel)]="product.desconto" class="form-control w-75 text-center" />
+            <input type="number" [(ngModel)]="product.productDiscount" class="form-control w-75 text-center" />
           </td>
 
           <td class="mt-2 d-flex">
@@ -70,15 +74,15 @@
             </svg>
 
             <svg *ngIf="!product.isEditing" (click)="removeProduct(product.id)" xmlns="http://www.w3.org/2000/svg"
-              width="16" height="16" fill="currentColor" class="bi bi-trash ms-2 mb-2 cursor-pointer" viewBox="0 0 16 16">
+              width="16" height="16" fill="currentColor" class="bi bi-trash ms-2 mb-2 cursor-pointer"
+              viewBox="0 0 16 16">
               <path
                 d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
               <path
                 d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
             </svg>
 
-            <button *ngIf="product.isEditing" (click)="saveProduct(product)"
-              class="btn btn-primary me-1">Save</button>
+            <button *ngIf="product.isEditing" (click)="saveProduct(product)" class="btn btn-primary me-1">Save</button>
             <button *ngIf="product.isEditing" (click)="cancelEditProduct(product)"
               class="btn btn-secondary">Cancel</button>
           </td>
@@ -110,8 +114,12 @@
           </div>
           <div class="mb-3">
             <label for="categoriaProduto" class="form-label">Categoria</label>
-            <input type="text" class="form-control" id="categoriaProduto" name="categoriaProduto" ngModel
-              placeholder="Digite a categoria" required>
+            <select class="form-select" id="categoriaProduto" name="categoriaProduto" ngModel required>
+              <option value="" disabled selected>Selecione uma categoria</option>
+              <option *ngFor="let category of categories" [value]="category.value">
+                {{ category.label }}
+              </option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="descricaoProduto" class="form-label">Descrição</label>
@@ -127,7 +135,8 @@
             <input type="number" class="form-control" id="descontoProduto" name="descontoProduto" ngModel
               placeholder="Digite o desconto">
           </div>
-          <button type="submit" class="btn btn-primary">Adicionar</button>
+          <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#produtoModal">Adicionar</button>
         </form>
       </div>
     </div>

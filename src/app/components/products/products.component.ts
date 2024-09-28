@@ -1,7 +1,9 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { productService } from '../../services/product.service';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthenticationService } from '../../services/authentication.service';
+import { CommonModule } from '@angular/common';
+import { ProductService } from '../../services/product.service';
+import { categories } from '../../utills/categories';
 
 @Component({
   selector: 'app-products',
@@ -10,68 +12,80 @@ import { FormsModule, NgForm } from '@angular/forms';
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent implements OnInit, OnChanges {
-  public products: any[] = []
-  public count = 0;
+export class ProductsComponent implements OnInit {
+  public products: any[] = [];
   public editMode: boolean = false;
   public selectedProduct: any = null;
-
+  public token: string = '';
+  public categories: any[] = [];
   constructor(
-    private productService: productService
-  ){}
+    private productService: ProductService,
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
+    this.token = this.authService.getAuthToken();
+    this.categories = categories;
+    this.loadProducts();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.searchProduct(changes);
+  loadProducts() {
+    this.productService.getProducts(this.token).subscribe((products: any) => {
+      this.products = products;
+    });
   }
 
   addProduct(form: NgForm) {
-    this.count = this.products.length;
-    //remover a lógica do newId
-    const newId = this.count + 1;
     const newProduct = {
-      id: newId,
-      nomeProduto: form.value.nomeProduto,
-      quantidade: 0,
-      preco: `${form.value.precoProduto}`,
-      categoria: form.value.categoriaProduto,
-      descricao: form.value.descricaoProduto,
-      dataValidade: form.value.dataValidadeProduto,
-      desconto:`${form.value.descontoProduto}`
+      name: form.value.nomeProduto,
+      price: form.value.precoProduto,
+      category: form.value.categoriaProduto,
+      description: form.value.descricaoProduto,
+      expirationDate: form.value.dataValidadeProduto,
+      productDiscount: form.value.descontoProduto,
+      stockQuantity: 0,
     };
 
-    this.products.push(newProduct);
-    form.resetForm();
+    this.productService.addProduct(newProduct, this.token).subscribe(() => {
+      this.loadProducts();
+      form.resetForm();
+    });
+  }
+
+  saveProduct(product: any) {
+    this.productService.updateProduct(product.id, product, this.token).subscribe(() => {
+      product.isEditing = false;
+      this.loadProducts();
+    });
+  }
+
+  removeProduct(id: string) {
+    this.productService.deleteProduct(id, this.token).subscribe(() => {
+      this.loadProducts();
+    });
   }
 
   searchProduct($event: any) {
     const search = $event.target.value;
-    this.products = this.productService.getProducts().filter((product: any) => {
-      return product.nomeProduto.toLowerCase().includes(search.toLowerCase());
-    });
-
-    if(!search) {
-      this.products = this.productService.getProducts();
+    if (!search) {
+      this.loadProducts();
+    } else {
+      this.products = this.products.filter((product: any) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
     }
   }
 
-
   editProduct(product: any) {
     product.isEditing = true;
-  }
-
-  saveProduct(product: any) {
-    product.isEditing = false;
   }
 
   cancelEditProduct(product: any) {
     product.isEditing = false;
   }
 
-  removeProduct(id: number) {
-    this.products = this.products.filter(product => product.id !== id);
-  }	
+  translateCategory(value: string): string {
+    const category = this.categories.find(cat => cat.value === value);
+    return category ? category.label : value;
+  }
 }

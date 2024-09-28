@@ -1,76 +1,47 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class productService {
-    products = [
-        {
-            "id": 1,
-            "nomeProduto": "Arroz",
-            "quantidade": 10,
-            "preco": "20.00",
-            "categoria": "Alimentos",
-            "descricao": "Arroz integral",
-            "dataValidade": "2025-08-01",
-            "desconto": "10"
-        },
-        {
-            "id": 2,
-            "nomeProduto": "Feijão",
-            "quantidade": 5,
-            "preco": "12.50",
-            "categoria": "Alimentos",
-            "descricao": "Feijão carioca",
-            "dataValidade": "2024-12-31",
-            "desconto": "5"
-        },
-        {
-            "id": 3,
-            "nomeProduto": "Macarrão",
-            "quantidade": 20,
-            "preco": "15.00",
-            "categoria": "Alimentos",
-            "descricao": "Macarrão espaguete",
-            "dataValidade": "2025-10-15",
-            "desconto": "8"
-        },
-        {
-            "id": 4,
-            "nomeProduto": "Azeite",
-            "quantidade": 3,
-            "preco": "25.00",
-            "categoria": "Condimentos",
-            "descricao": "Azeite extra virgem",
-            "dataValidade": "2026-06-20",
-            "desconto": "12"
-        },
-        {
-            "id": 5,
-            "nomeProduto": "Leite",
-            "quantidade": 12,
-            "preco": "6.00",
-            "categoria": "Bebidas",
-            "descricao": "Leite integral",
-            "dataValidade": "2024-09-05",
-            "desconto": "7"
-        },
-        {
-            "id": 6,
-            "nomeProduto": "Café",
-            "quantidade": 15,
-            "preco": "8.50",
-            "categoria": "Bebidas",
-            "descricao": "Café torrado e moído",
-            "dataValidade": "2024-11-10",
-            "desconto": "10"
-        }
-      ];
+export class ProductService {
 
-    constructor() {}
+  constructor(private http: HttpClient) { }
 
-    public getProducts() {
-        return this.products;
-    }
-    
+  getProducts(token: string): Observable<any[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<any[]>(`${environment.apiUrl}/products/`, { headers });
+  }
+
+  getProductById(id: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<any>(`${environment.apiUrl}/products/${id}`, { headers });
+  }
+
+  addProduct(product: any, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${environment.apiUrl}/products/`, product, { headers });
+  }
+
+  updateProduct(id: string, product: any, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.patch<any>(`${environment.apiUrl}/products/${id}`, product, { headers });
+  }
+
+  deleteProduct(id: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete<any>(`${environment.apiUrl}/products/${id}`, { headers });
+  }
 }
