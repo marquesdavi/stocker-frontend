@@ -3,7 +3,7 @@ export enum UserStatus {
     Inativo = 'Inativo',
 }
 
-export enum CreateUserStatus {
+export enum UpdateUserStatus {
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE",
 }

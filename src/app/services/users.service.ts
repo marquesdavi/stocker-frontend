@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { CreateUserStatus } from "../enums/status.enum";
+import { UpdateUserStatus } from "../enums/status.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -32,7 +32,7 @@ export class UserService {
             email: newUser.email,
             cpf: newUser.cpf,
             password: newUser.password,
-            status: CreateUserStatus.ACTIVE
+            status: UpdateUserStatus.ACTIVE
         };
 
         return this.http.post(`${environment.apiUrl}/user/`, body, { headers });
