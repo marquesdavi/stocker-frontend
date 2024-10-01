@@ -2,15 +2,15 @@
     <div class="profile-card ms-5 bg-light">
         <div class="profile-card-header">
             <div class="d-flex align-items-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture">
+                <img *ngIf="!user.profileImage" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture">
+                <img *ngIf="user.profileImage" [src]="'data:image/jpeg;base64,' + user.profileImage" alt="Uploaded Image" />
                 <div class="justify-content-between">
                     <h5 class="ms-3">{{user.name}}</h5>
                     <h5 class="ms-3">{{user.roles[0]}}</h5>
                 </div>
                 <div class="ms-auto">
-                    <button class="btn btn-secondary">
-                        Alterar Foto
-                    </button>
+                    <button class="btn btn-primary" (click)="fileInput.click()">Upload Image</button>
+                    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
                 </div>
             </div>
 
@@ -31,6 +31,12 @@
                 <p>{{user.status}}</p>
             </div>
 
+        </div>
+
+        <div class="btn-container" *ngIf="selectedFile">
+            <button class="btn btn-success mt-2" (click)="uploadImage(user.id)"
+                [disabled]="!selectedFile">Submit
+            </button>
         </div>
     </div>
 </div>

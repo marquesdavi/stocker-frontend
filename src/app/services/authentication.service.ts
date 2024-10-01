@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserService } from './users.service';
 
 @Injectable({
@@ -31,10 +31,10 @@ export class AuthenticationService {
     return this.cookieService.get('accessToken');
   }
 
-  public isAdmin(): any {
+  public isAdmin(): Observable<boolean> {
     this.token = this.getAuthToken();
-    this.userService.getCurrentUser(this.token).subscribe((user) => {
-      return user.roles[0] === 'ADMIN'
-    });
-  }
+    return this.userService.getCurrentUser(this.token).pipe(
+      map(user => user.roles[0] === 'ADMIN')
+    );
+  }  
 }

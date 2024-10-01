@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
+import { CreateUserStatus } from "../enums/status.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -25,14 +26,36 @@ export class UserService {
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${token}`
         });
+        
         const body = {
             name: newUser.name,
             email: newUser.email,
             cpf: newUser.cpf,
             password: newUser.password,
-            status: true
-        }
+            status: CreateUserStatus.ACTIVE
+        };
+
         return this.http.post(`${environment.apiUrl}/user/`, body, { headers });
+    }
+
+    public updateUserStatus(userId: string, updatedClient: any, token: string): Observable<any> {
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        });
+        
+        return this.http.patch(`${environment.apiUrl}/user/${userId}`, updatedClient, { headers });
+    }
+
+    public updateUserImage(userId: string, file: File, token: string): Observable<any> {
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+        });
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return this.http.patch(`${environment.apiUrl}/user/upload/${userId}`, formData, { headers });
     }
 
     public getCurrentUser(token: string): Observable<any> {

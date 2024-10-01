@@ -38,6 +38,18 @@ export class CustomerService {
     return this.http.patch<any>(`${environment.apiUrl}/customers/${id}`, customer, { headers });
   }
 
+  updateCustomerDiscount(customerId: string, discountPercentage: number, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.patch<any>(
+      `${environment.apiUrl}/customers/${customerId}`,
+      { discountPercentage },
+      { headers }
+    );
+  }
+
   deleteCustomer(id: string, token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

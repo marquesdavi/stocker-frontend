@@ -41,14 +41,29 @@ export class AdminComponent implements OnInit {
   }
 
   public toggleStatus(clientId: string): void {
-    this.clients = this.clients.map(client => {
-      if (client.id === clientId) {
-        client.status = client.status === UserStatus.Ativo ? UserStatus.Inativo : UserStatus.Ativo;
-      }
-      return client;
-    });
-    this.countUsers();
+    const client = this.clients.find(client => client.id === clientId);
+    
+    if (client) {
+      const updatedStatus = client.status === UserStatus.Ativo ? UserStatus.Inativo : UserStatus.Ativo;
+
+      const updatedClient = {
+        ...client,
+        status: updatedStatus
+      };
+
+      this.userService.updateUserStatus(clientId, updatedClient, this.token).subscribe({
+        next: (response) => {
+
+          client.status = updatedStatus;
+          this.countUsers();
+        },
+        error: (error) => {
+          console.error('Error updating user status:', error);
+        }
+      });
+    }
   }
+  
 
   public openModal(): void {
     const modal = new bootstrap.Modal(document.getElementById('createUserModal'));
