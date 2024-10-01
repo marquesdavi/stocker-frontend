@@ -29,7 +29,7 @@
         <option *ngFor="let customer of customers" [ngValue]="customer">{{ customer.name }}</option>
       </select>
 
-      <div *ngIf="selectedCustomer && selectedCustomer.discountPercentage > 0">
+      <div *ngIf="selectedCustomer && selectedCustomer.discountPercentage > 0 && movementType === '2'">
         <p>Desconto do Cliente: {{ selectedCustomer.discountPercentage }}%</p>
         <button *ngIf="!customerDiscountApplied && movementType === '2'" (click)="applyCustomerDiscount()"
           class="btn btn-warning">Adicionar

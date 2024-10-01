@@ -27,7 +27,6 @@ export class PerfilComponent implements OnInit {
   getCurrentUser() {
     this.userService.getCurrentUser(this.token).subscribe((user) => {
       this.user = user;
-      console.log(user)
     });
   }
 
@@ -40,13 +39,14 @@ export class PerfilComponent implements OnInit {
       this.userService.updateUserImage(userId, this.selectedFile, this.token).subscribe({
         next: (response) => {
           this.getCurrentUser();
+          this.selectedFile = null;
         },
         error: (error) => {
           console.error(error);
         }
       });
     } else {
-      console.error('No file selected');
+      console.error('Nenhuma imagem selecionada');
     }
   }
 }

@@ -10,10 +10,9 @@
                 </div>
                 <div class="ms-auto">
                     <button class="btn btn-primary" (click)="fileInput.click()">Upload Image</button>
-                    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+                    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/png, image/jpeg" style="display: none;" />
                 </div>
             </div>
-
         </div>
 
         <div class="profile-card-body mt-4">
@@ -30,7 +29,6 @@
                 <label class="ms-auto form-label fw-bold">Status</label>
                 <p>{{user.status}}</p>
             </div>
-
         </div>
 
         <div class="btn-container" *ngIf="selectedFile">
