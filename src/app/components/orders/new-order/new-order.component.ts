@@ -133,7 +133,8 @@ export class NewOrderComponent implements OnInit {
         items: this.orderProducts.map((orderProduct) => ({
           product: orderProduct.productId,
           amount: orderProduct.quantity
-        }))
+        })),
+        movementDiscount: 0
       };
 
       this.ordersService.createOrder(orderData, this.token).subscribe(() => {

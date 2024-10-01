@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { UserService } from '../../services/users.service';
 import { UserCardComponent } from '../../shared/components/user-card/user-card.component';
-import { UserStatus } from '../../enums/status.enum';
+import { UpdateUserStatus, UserStatus } from '../../enums/status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
     this.userService.getUsers(this.token).subscribe((clients: any[]) => {
       this.clients = clients.map(client => ({
         ...client,
-        status: client.status ? UserStatus.Ativo : UserStatus.Inativo
+        status: client.status === UpdateUserStatus.ACTIVE ? UpdateUserStatus.ACTIVE  : UpdateUserStatus.INACTIVE
       }));
       this.countUsers();
     });
@@ -44,7 +44,7 @@ export class AdminComponent implements OnInit {
     const client = this.clients.find(client => client.id === clientId);
     
     if (client) {
-      const updatedStatus = client.status === UserStatus.Ativo ? UserStatus.Inativo : UserStatus.Ativo;
+      const updatedStatus = client.status === UpdateUserStatus.ACTIVE  ? UpdateUserStatus.INACTIVE : UpdateUserStatus.ACTIVE;
 
       const updatedClient = {
         ...client,

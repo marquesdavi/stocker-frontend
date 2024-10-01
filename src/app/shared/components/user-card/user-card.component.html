@@ -1,4 +1,4 @@
-<div class="card-container" [ngClass]="{ 'bg-danger': status === 'Inativo' }">
+<div class="card-container" [ngClass]="{ 'bg-danger': status === 'INACTIVE' }">
     <div class="d-flex justify-content-between card-body bg-ca">
         <div class="flex-column">
             <div class="d-flex align-items-center">
@@ -15,7 +15,7 @@
             <ul class="dropdown-menu text-center dropdown-menu bg-light">
                 <li>
                     <button (click)="clientStatusToggle()" type="button" class="dropdown-item"
-                        [class.text-danger]="status === 'Ativo'" [class.text-success]="status === 'Inativo'">
+                        [class.text-danger]="status === 'ACTIVE'" [class.text-success]="status === 'INACTIVE'">
                         {{ status === 'Ativo' ? 'Desativar usuário' : 'Ativar usuário' }}
                     </button>
                 </li>

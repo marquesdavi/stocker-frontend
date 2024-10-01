@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UserStatus } from '../../../enums/status.enum';
+import { UpdateUserStatus, UserStatus } from '../../../enums/status.enum';
 
 @Component({
   selector: 'app-user-card',
@@ -12,7 +12,7 @@ import { UserStatus } from '../../../enums/status.enum';
 export class UserCardComponent {
   @Input() nome: string = '';
   @Input() cargo: string = '';
-  @Input() status: UserStatus = UserStatus.Inativo;
+  @Input() status: UpdateUserStatus  = UpdateUserStatus.INACTIVE;
   
   @Output() clientStatusToggler = new EventEmitter<void>();
 
