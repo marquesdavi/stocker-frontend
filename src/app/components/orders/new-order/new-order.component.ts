@@ -4,7 +4,7 @@ import { OrdersService } from '../../../services/orders.service';
 import { CustomerService } from '../../../services/customer.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
@@ -34,7 +34,8 @@ export class NewOrderComponent implements OnInit {
     private productService: ProductService,
     private ordersService: OrdersService,
     private customerService: CustomerService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -146,6 +147,9 @@ export class NewOrderComponent implements OnInit {
           this.selectedCustomer.discountPercentage = 0;
         });
       }
+      setInterval(() => {
+        this.router.navigate(['/orders']);
+      }, 500)
     }
   }
 
