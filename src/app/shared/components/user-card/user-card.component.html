@@ -16,7 +16,7 @@
                 <li>
                     <button (click)="clientStatusToggle()" type="button" class="dropdown-item"
                         [class.text-danger]="status === 'ACTIVE'" [class.text-success]="status === 'INACTIVE'">
-                        {{ status === 'Ativo' ? 'Desativar usuário' : 'Ativar usuário' }}
+                        {{ status === 'ACTIVE' ? 'Desativar usuário' : 'Ativar usuário' }}
                     </button>
                 </li>
             </ul>
