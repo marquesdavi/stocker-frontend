@@ -140,6 +140,8 @@ export class NewOrderComponent implements OnInit {
 
       this.ordersService.createOrder(orderData, this.token).subscribe(() => {
         this.updateProductStock();
+        this.router.navigate(['/orders']);
+
       });
 
       if (this.customerDiscountApplied) {
@@ -147,9 +149,6 @@ export class NewOrderComponent implements OnInit {
           this.selectedCustomer.discountPercentage = 0;
         });
       }
-      setInterval(() => {
-        this.router.navigate(['/orders']);
-      }, 500)
     }
   }
 
